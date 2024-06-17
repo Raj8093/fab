@@ -1,0 +1,20 @@
+.suggestItem{
+    height: 2rem;
+    padding:2px;
+    display:flex;
+    justify-content: left;
+    gap:4px;
+    align-items: center;
+    border-top: 1px solid black;
+}
+.suggestItem:hover{
+    background-color:#e5e0e0b8;
+}
+.primarySuggest{
+    font-size: 16px;
+    color: black;
+}
+.secondarySuggest{
+    font-size: 16px;
+    color:rgb(124, 119, 119)
+}

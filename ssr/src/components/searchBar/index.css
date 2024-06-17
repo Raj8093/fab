@@ -1,0 +1,23 @@
+.searchWrapper{
+    border:1px solid grey;
+    border-radius: 5px;
+    display: flex;
+    height: 2rem;
+    width:100%;
+    padding:5px;
+    box-shadow:2px 3px 3px 4px grey;
+}
+.inputBox{
+    border: none;
+    height: 100%;
+    width: 100%;
+    background-color: transparent;
+    outline: none;
+    font-size: 18px;
+}
+.searchIcon{
+    color: #fedf1f;
+    height: 100%;
+    width:1.5rem;
+    margin: 0 5px;
+}
