@@ -1,4 +1,5 @@
 import './index.css'
+import React from 'react';
 const SuggestionCard=(props)=>{
     const {hotel}=props
      return(

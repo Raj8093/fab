@@ -1,5 +1,6 @@
 import './index.css';
 import { SuggestionCard } from './suggestionCard';
+import React from 'react';
 let data={
     "hotels": [
       {
@@ -137,7 +138,6 @@ let data={
     ]
   }
 const Suggestions=()=>{
-    console.log('hotels==>',data)
 return (
     <div>
         {data.hotels.map((hotel,index)=>{
