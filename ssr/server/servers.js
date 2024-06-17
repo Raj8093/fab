@@ -21,7 +21,7 @@ const serverRenderer = (req, res, next) => {
       <App />
     </StaticRouter>
   )
-  fs.readFile(path.resolve('./build/index.html'), 'utf8', (err, data) => {
+  fs.readFile(path.resolve('./build/index.html'), 'utf-8', (err, data) => {
     if (err) {
       return res.status(500).send('An error occurred')
     }
@@ -196,6 +196,14 @@ app.get(`/hoteldetails`,async (req, res) => {
 } catch (error) {
     res.status(500).json({ error: 'Google server error' });
 }
+})
+app.use((req,res,next)=>{
+  if(/\.js|\.css/.test(req.path)){
+    res.redirect('/build'+req.path)
+  }
+  else{
+    next()
+  }
 })
 app.get('*', serverRenderer) 
 
