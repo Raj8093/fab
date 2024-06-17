@@ -1,15 +1,20 @@
 import { FaSearch } from "react-icons/fa";
 import React,{ useState,useEffect } from "react";
 import './index.css'
-const SearchBar=()=>{
+const SearchBar=({getHoteldata})=>{
     const [searchTerm,setSearchTerm]=useState('')
 
     useEffect(()=>{
+        if(searchTerm){
         fetch(`http://localhost:8000/hoteldetails/?suggest=${searchTerm}`)
         .then((res) => res.json())
         .then((json) => {
           console.log(json)
-        }).catch((error)=>console.log(error))
+          getHoteldata(json)
+        }).catch((error)=>{
+            console.log(error)
+            getHoteldata({})
+        })}
       },[searchTerm])
 
     const onInputchange=(input)=>{ 
@@ -17,12 +22,14 @@ const SearchBar=()=>{
     }
 
     return (
-        <div className="searchWrapper">
+        <div className="searchContainer">
+            <div className="searchWrapper">
             <FaSearch className="searchIcon"/>
             <input value={searchTerm} 
             onChange={(e)=>onInputchange(e.target.value)} 
             className="inputBox"
             placeholder="Search here"/>
+            </div>
         </div>
     )
 }

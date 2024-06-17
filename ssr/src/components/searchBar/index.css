@@ -1,3 +1,8 @@
+.searchContainer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 .searchWrapper{
     border:1px solid grey;
     border-radius: 5px;

@@ -1,12 +1,19 @@
 import { SearchBar } from "../components/searchBar";
 import { Suggestions } from '../components/suggestions';
-import React from "react";
+import React,{useState} from "react";
+import "./index.css"
 const Search=()=>{
+    const [hotelData,setHotelData]=useState({})
+    const getHoteldata=(data)=>{
+        setHotelData(data)
+    }
 return(
-    <React.Fragment>
-        <SearchBar/>
-        <Suggestions/>
-    </React.Fragment>
+    <div className="container">
+        <div className="wrapper">
+        <SearchBar getHoteldata={getHoteldata}/>
+        <Suggestions hotelData={hotelData}/>
+        </div>
+    </div>
 )
 }
 export{Search}

@@ -186,6 +186,7 @@ app.get(`/hoteldetails`,async (req, res) => {
         }
     });
     let reponseDataCombined={place:response.data}
+    reponseDataCombined['hotels']={predictions:[]}
     let suggestedHotels=await findHotelsByTitle(input,data.hotels)
     
     
