@@ -2,9 +2,10 @@ import './index.css';
 import { SuggestionCard } from './suggestionCard';
 import React, { useEffect, useState } from 'react';
 import { useNavigate  } from 'react-router-dom';
-
-const Suggestions = ({ hotelData }) => {
+import { useSelector } from 'react-redux';
+const Suggestions = () => {
   const [suggestionHead, setSuggestionHead] = useState([])
+  const hotelData = useSelector((state) => state.hotels);
   const navigate = useNavigate ();
   const formatHotel = () => {
     let heads = Object.keys(hotelData) || []

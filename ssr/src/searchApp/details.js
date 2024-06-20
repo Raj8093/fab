@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from 'react-router-dom';
 import { FaLocationArrow } from "react-icons/fa";
+import axios from "axios";
 import './index.css'
 const Details = () => {
     const [locationDetails, setLocationDetails] = useState({})
@@ -12,10 +13,9 @@ const Details = () => {
 
     useEffect(() => {
         setLoading(true)
-        fetch(`http://localhost:8000/detail/?Id=${Id}&type=${type}`)
-            .then((res) => res.json())
-            .then((json) => {
-                setLocationDetails(json)
+        axios(`http://localhost:8000/detail/?Id=${Id}&type=${type}`)
+            .then((res) => {
+                setLocationDetails(res.data)
                 setLoading(false)
             }).catch((error) => {
                 console.log(error)
