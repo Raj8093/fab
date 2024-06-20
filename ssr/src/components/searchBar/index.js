@@ -5,7 +5,6 @@ const SearchBar=({getHoteldata})=>{
     const [searchTerm,setSearchTerm]=useState('')
 
     useEffect(()=>{
-        setLoading(true)
         if(searchTerm){
         fetch(`http://localhost:8000/hoteldetails/?suggest=${searchTerm}`)
         .then((res) => res.json())
@@ -17,7 +16,6 @@ const SearchBar=({getHoteldata})=>{
         })}
         else{
             getHoteldata({})
-            setLoading(false)
         }
       },[searchTerm])
 
@@ -28,7 +26,7 @@ const SearchBar=({getHoteldata})=>{
     return (
         <div className="searchContainer">
             <div className="searchWrapper">
-            <FaSearch className="searchIcon"/>
+            <FaSearch className="searchIcon" data-testid="searchIcon"/>
             <input value={searchTerm} 
             onChange={(e)=>onInputchange(e.target.value)} 
             className="inputBox"

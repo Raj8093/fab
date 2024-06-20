@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from 'react-router-dom';
 import { FaLocationArrow } from "react-icons/fa";
-import toast,{Toaster} from 'react-hot-toast';
 import './index.css'
 const Details = () => {
     const [locationDetails, setLocationDetails] = useState({})
@@ -19,16 +18,13 @@ const Details = () => {
                 setLocationDetails(json)
                 setLoading(false)
             }).catch((error) => {
-                toast.error(error)
+                console.log(error)
                 setLocationDetails({})
                 setLoading(false)
             })
     }, [])
     return (
         <div className="detailsContainer">
-                  <Toaster
-      position="top-center"
-      />
             {loading ? <div>Loading</div> : Object.keys(locationDetails).length ? <React.Fragment><div className="nameContainer">
                 <div>
                     {locationDetails?.[type]?.title}
