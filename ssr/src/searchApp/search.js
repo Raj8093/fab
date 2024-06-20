@@ -7,6 +7,7 @@ const Search=()=>{
     const getHoteldata=(data)=>{
         setHotelData(data)
     }
+
 return(
     <div className="container">
         <div className="wrapper">

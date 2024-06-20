@@ -5,16 +5,20 @@ const SearchBar=({getHoteldata})=>{
     const [searchTerm,setSearchTerm]=useState('')
 
     useEffect(()=>{
+        setLoading(true)
         if(searchTerm){
         fetch(`http://localhost:8000/hoteldetails/?suggest=${searchTerm}`)
         .then((res) => res.json())
         .then((json) => {
-          console.log(json)
           getHoteldata(json)
-        }).catch((error)=>{
+        }).catch((error)=>{ 
             console.log(error)
             getHoteldata({})
         })}
+        else{
+            getHoteldata({})
+            setLoading(false)
+        }
       },[searchTerm])
 
     const onInputchange=(input)=>{ 

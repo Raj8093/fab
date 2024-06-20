@@ -6,3 +6,28 @@
 .wrapper{
     width:30%;
 }
+.detailsContainer{
+    display: flex;
+    flex-direction: column;
+    gap:0.8rem;
+    padding: 0 2rem;
+}
+.nameContainer{
+    font-size: 16px;
+    font-weight: 700;
+    height: 2rem;
+    padding: 4px 8px;
+    display: flex;
+    align-items: center;
+    background-color: #f2f248d9;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+.otherDetails{
+    display: flex;
+    flex-direction: column;
+    font-size: 14px;
+    gap: 0.5rem;
+    color: gray;
+    padding-left: 1rem;
+}

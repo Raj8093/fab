@@ -2,6 +2,7 @@ import './App.css';
 import React from 'react';
 import { Company_Name } from './constants';
 import { SearchApp } from './searchApp';
+
 function App() {
 
 

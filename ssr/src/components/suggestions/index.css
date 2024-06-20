@@ -10,7 +10,6 @@
 }
 
 .suggestItem{
-    height: 2rem;
     padding:2px;
     display:flex;
     justify-content: left;
