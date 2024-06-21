@@ -2,72 +2,66 @@ import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import { SearchBar } from './index';
-import { FaSearch } from 'react-icons/fa';
+import { Provider } from 'react-redux';
+import configureStore from 'redux-mock-store';
+import axios from 'axios';
+import { setHotels } from '../../store/actions';
 
-// Mocking the fetch API
-beforeAll(() => {
-  global.fetch = jest.fn();
-});
+jest.mock('axios');
 
-afterEach(() => {
-  fetch.mockClear();
-});
+const mockStore = configureStore([]);
+const renderWithRedux = (component, { initialState, store = mockStore(initialState) } = {}) => {
+  return render(<Provider store={store}>{component}</Provider>);
+};
 
 describe('SearchBar Component', () => {
-  it('renders the search input and icon', () => {
-    render(<SearchBar getHoteldata={jest.fn()} />);
-    const inputElement = screen.getByPlaceholderText(/Search here/i);
-    const searchIcon = screen.getByTestId('searchIcon')
-    expect(inputElement).toBeInTheDocument();
-    expect(searchIcon).toBeInTheDocument();
-  });
+  let store;
 
-  it('calls getHoteldata with fetched data when typing in the input', async () => {
-    const mockData = [{ id: 1, name: 'Hotel Test' }];
-    fetch.mockResolvedValueOnce({
-      json: () => Promise.resolve(mockData),
+  beforeEach(() => {
+    store = mockStore({
+      hotels: [],
     });
 
-    const getHoteldata = jest.fn();
-    render(<SearchBar getHoteldata={getHoteldata} />);
-
-    const inputElement = screen.getByPlaceholderText(/Search here/i);
-    fireEvent.change(inputElement, { target: { value: 'Test' } });
-
-    await waitFor(() => expect(fetch).toHaveBeenCalledWith('http://localhost:8000/hoteldetails/?suggest=Test'));
-    await waitFor(() => expect(getHoteldata).toHaveBeenCalledWith(mockData));
+    store.dispatch = jest.fn();
   });
 
-  it('calls getHoteldata with an empty object when the search term is cleared', async () => {
+  it('renders search bar with icon and input', () => {
+    renderWithRedux(<SearchBar />);
+
+    expect(screen.getByPlaceholderText(/Search here/i)).toBeInTheDocument();
+    expect(screen.getByTestId('searchIcon')).toBeInTheDocument();
+  });
+
+  it('dispatches setHotels with empty object when input is cleared', () => {
+    renderWithRedux(<SearchBar />, { store });
+
+    fireEvent.change(screen.getByPlaceholderText(/Search here/i), { target: { value: '' } });
+
+    expect(store.dispatch).toHaveBeenCalledWith(setHotels({}));
+  });
+
+  it('makes API call and dispatches setHotels with data on input change', async () => {
     const mockData = [{ id: 1, name: 'Hotel Test' }];
-    fetch.mockResolvedValueOnce({
-      json: () => Promise.resolve(mockData),
-    });
+    axios.mockResolvedValueOnce({ data: mockData });
 
-    const getHoteldata = jest.fn();
-    render(<SearchBar getHoteldata={getHoteldata} />);
+    renderWithRedux(<SearchBar />, { store });
 
-    const inputElement = screen.getByPlaceholderText(/Search here/i);
-    fireEvent.change(inputElement, { target: { value: 'Test' } });
+    fireEvent.change(screen.getByPlaceholderText(/Search here/i), { target: { value: 'Hotel' } });
 
-    await waitFor(() => expect(fetch).toHaveBeenCalledWith('http://localhost:8000/hoteldetails/?suggest=Test'));
-    await waitFor(() => expect(getHoteldata).toHaveBeenCalledWith(mockData));
+    await waitFor(() => expect(axios).toHaveBeenCalledWith('http://localhost:8000/hoteldetails/?suggest=Hotel'));
 
-    fireEvent.change(inputElement, { target: { value: '' } });
-
-    await waitFor(() => expect(getHoteldata).toHaveBeenCalledWith({}));
+    expect(store.dispatch).toHaveBeenCalledWith(setHotels(mockData));
   });
 
-  it('calls getHoteldata with an empty object when there is an error in fetching data', async () => {
-    fetch.mockRejectedValueOnce(new Error('API is down'));
+  it('handles API error and dispatches setHotels with empty object', async () => {
+    axios.mockRejectedValueOnce(new Error('API is down'));
 
-    const getHoteldata = jest.fn();
-    render(<SearchBar getHoteldata={getHoteldata} />);
+    renderWithRedux(<SearchBar />, { store });
 
-    const inputElement = screen.getByPlaceholderText(/Search here/i);
-    fireEvent.change(inputElement, { target: { value: 'Test' } });
+    fireEvent.change(screen.getByPlaceholderText(/Search here/i), { target: { value: 'Hotel' } });
 
-    await waitFor(() => expect(fetch).toHaveBeenCalledWith('http://localhost:8000/hoteldetails/?suggest=Test'));
-    await waitFor(() => expect(getHoteldata).toHaveBeenCalledWith({}));
+    await waitFor(() => expect(axios).toHaveBeenCalledWith('http://localhost:8000/hoteldetails/?suggest=Hotel'));
+
+    expect(store.dispatch).toHaveBeenCalledWith(setHotels({}));
   });
 });
