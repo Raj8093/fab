@@ -1,16 +1,18 @@
 import { FaSearch } from "react-icons/fa";
 import React,{ useState,useEffect } from "react";
 import './index.css'
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { setHotels } from "../../store/actions";
 import axios from "axios";
+import { host } from "../../constants";
 const SearchBar=()=>{
     const [searchTerm,setSearchTerm]=useState('')
     const dispatch = useDispatch();
 
     useEffect(()=>{
+        console.log(host)
         if(searchTerm){
-        axios(`http://localhost:8000/hoteldetails/?suggest=${searchTerm}`)
+        axios(`${host}/hoteldetails/?suggest=${searchTerm}`)
         .then((res) =>{ 
           dispatch(setHotels(res.data))})
         .catch((error)=>{ 

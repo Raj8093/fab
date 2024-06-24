@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { FaLocationArrow } from "react-icons/fa";
 import axios from "axios";
 import './index.css'
+import { host } from "../constants";
 const Details = () => {
     const [locationDetails, setLocationDetails] = useState({})
     const [loading, setLoading] = useState(false)
@@ -13,7 +14,7 @@ const Details = () => {
 
     useEffect(() => {
         setLoading(true)
-        axios(`http://localhost:8000/detail/?Id=${Id}&type=${type}`)
+        axios(`${host}/detail/?Id=${Id}&type=${type}`)
             .then((res) => {
                 setLocationDetails(res.data)
                 setLoading(false)
