@@ -1,2 +1,2 @@
 export const Company_Name= 'Fab Hotels'
-export const host=window.location.origin
+export const host='https://fab-hotel.onrender.com'
