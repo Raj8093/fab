@@ -151,7 +151,6 @@ const serverRenderer = (req, res, next) => {
   const context = {};
   const store = createStore();
 
-  // Preload your Redux store with data if needed
   store.dispatch({ type: 'INIT_DATA', payload: data });
 
   const app = ReactDOMServer.renderToString(

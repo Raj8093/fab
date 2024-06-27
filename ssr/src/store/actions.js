@@ -7,5 +7,3 @@ export const setHotels = (hotels) => ({
     type: 'SET_SELECTED_HOTEL',
     payload: hotel
   });
-  
-  

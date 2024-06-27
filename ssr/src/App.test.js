@@ -4,7 +4,6 @@ import '@testing-library/jest-dom/extend-expect';
 import App from './App';
 import { Company_Name } from './constants';
 
-// Mock the SearchApp component
 jest.mock('./searchApp', () => ({
   SearchApp: () => <div>Mocked SearchApp Component</div>,
 }));
